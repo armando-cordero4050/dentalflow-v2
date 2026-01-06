@@ -1,33 +1,33 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Users, FileText, Beaker, CreditCard, BarChart3 } from 'lucide-react'
+import { Users, Activity, Package, DollarSign, BarChart3 } from 'lucide-react'
 
 const features = [
   {
     icon: Users,
     title: 'Gestión de Pacientes',
-    description: 'Administra historiales médicos completos y expedientes digitales de forma segura y organizada.',
+    description: 'Administra fichas médicas completas con historial digitalizado',
   },
   {
-    icon: FileText,
+    icon: Activity,
     title: 'Odontograma Digital',
-    description: 'Registro visual interactivo del estado dental de cada paciente con anotaciones detalladas.',
+    description: 'Registro visual interactivo del estado dental del paciente',
   },
   {
-    icon: Beaker,
+    icon: Package,
     title: 'Órdenes de Laboratorio',
-    description: 'Sistema completo de seguimiento con 10 etapas KAMBA desde diseño hasta entrega.',
+    description: 'Workflow completo desde orden hasta entrega con tracking en tiempo real',
   },
   {
-    icon: CreditCard,
+    icon: DollarSign,
     title: 'Facturación Integrada',
-    description: 'Genera facturas automáticamente con integración a sistemas de pago y contabilidad.',
+    description: 'Control financiero y facturación electrónica automatizada',
   },
   {
     icon: BarChart3,
     title: 'Reportes y Analytics',
-    description: 'Análisis detallado de operaciones, productividad y métricas financieras en tiempo real.',
+    description: 'KPIs y métricas de rendimiento para toma de decisiones',
   },
 ]
 
@@ -56,7 +56,7 @@ export function Features() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="glass-effect p-6 rounded-xl hover:bg-white/20 transition-all group cursor-pointer"
             >
               <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
