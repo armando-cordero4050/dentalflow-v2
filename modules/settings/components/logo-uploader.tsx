@@ -24,8 +24,21 @@ export function LogoUploader({ currentLogoUrl, onLogoChange, disabled }: LogoUpl
     }
     reader.readAsDataURL(file)
 
-    // For now, just store the file URL - in production, this would upload to Supabase Storage
-    // You would need to implement the upload logic using the uploadLogo action
+    // NOTE: For production, integrate with uploadLogo action from clinic-settings.ts
+    // to properly upload files to Supabase Storage. Current implementation uses
+    // temporary blob URLs that won't persist across sessions.
+    // 
+    // Example implementation:
+    // setUploading(true)
+    // try {
+    //   const url = await uploadLogo(file, clinicId)
+    //   onLogoChange(url)
+    // } catch (error) {
+    //   console.error('Upload failed:', error)
+    // } finally {
+    //   setUploading(false)
+    // }
+    
     onLogoChange(URL.createObjectURL(file))
   }
 

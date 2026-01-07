@@ -2,6 +2,26 @@
 
 import { createClient } from '@/lib/supabase/server'
 
+// Define proper types for database query results
+interface LabOrder {
+  id: string
+  order_number: string
+  created_at: string
+  status: string
+  current_stage_id?: string
+  completed_at?: string
+  patients?: {
+    first_name: string
+    last_name: string
+  }
+  lab_stages?: {
+    name: string
+  }
+  lab_order_items?: Array<{
+    total_price: string
+  }>
+}
+
 export async function getDashboardMetrics(clinicId?: string) {
   const supabase = await createClient()
   const today = new Date()
@@ -58,8 +78,8 @@ export async function getDashboardMetrics(clinicId?: string) {
 
   const { data: revenueData } = await revenueQuery
 
-  const monthRevenue = revenueData?.reduce((total, order: any) => {
-    const orderTotal = order.lab_order_items?.reduce((sum: number, item: any) => sum + parseFloat(item.total_price || 0), 0) || 0
+  const monthRevenue = revenueData?.reduce((total, order) => {
+    const orderTotal = (order as unknown as LabOrder).lab_order_items?.reduce((sum, item) => sum + parseFloat(item.total_price || '0'), 0) || 0
     return total + orderTotal
   }, 0) || 0
 
@@ -92,8 +112,8 @@ export async function getOrdersByStage(clinicId?: string) {
 
   // Count orders by stage
   const stageCounts: Record<string, number> = {}
-  data?.forEach((order: any) => {
-    const stageName = order.lab_stages?.name || 'Sin etapa'
+  data?.forEach((order) => {
+    const stageName = (order as unknown as LabOrder).lab_stages?.name || 'Sin etapa'
     stageCounts[stageName] = (stageCounts[stageName] || 0) + 1
   })
 
@@ -130,14 +150,17 @@ export async function getRecentOrders(clinicId?: string, limit = 5) {
     return []
   }
 
-  return data?.map((order: any) => ({
-    id: order.id,
-    orderNumber: order.order_number,
-    createdAt: order.created_at,
-    status: order.status,
-    patientName: `${order.patients?.first_name || ''} ${order.patients?.last_name || ''}`.trim(),
-    stage: order.lab_stages?.name || 'Sin etapa'
-  })) || []
+  return data?.map((order) => {
+    const o = order as unknown as LabOrder
+    return {
+      id: o.id,
+      orderNumber: o.order_number,
+      createdAt: o.created_at,
+      status: o.status,
+      patientName: `${o.patients?.first_name || ''} ${o.patients?.last_name || ''}`.trim(),
+      stage: o.lab_stages?.name || 'Sin etapa'
+    }
+  }) || []
 }
 
 export async function getUpcomingDeliveries(clinicId?: string, days = 3) {
@@ -170,13 +193,16 @@ export async function getUpcomingDeliveries(clinicId?: string, days = 3) {
     return []
   }
 
-  return data?.map((order: any) => ({
-    id: order.id,
-    orderNumber: order.order_number,
-    createdAt: order.created_at,
-    status: order.status,
-    patientName: `${order.patients?.first_name || ''} ${order.patients?.last_name || ''}`.trim()
-  })) || []
+  return data?.map((order) => {
+    const o = order as unknown as LabOrder
+    return {
+      id: o.id,
+      orderNumber: o.order_number,
+      createdAt: o.created_at,
+      status: o.status,
+      patientName: `${o.patients?.first_name || ''} ${o.patients?.last_name || ''}`.trim()
+    }
+  }) || []
 }
 
 export async function getDailyOrderTrend(clinicId?: string, days = 7) {
@@ -204,8 +230,8 @@ export async function getDailyOrderTrend(clinicId?: string, days = 7) {
 
   // Group by day
   const dayCounts: Record<string, number> = {}
-  data?.forEach((order: any) => {
-    const date = new Date(order.created_at).toLocaleDateString('es-GT')
+  data?.forEach((order) => {
+    const date = new Date((order as unknown as LabOrder).created_at).toLocaleDateString('es-GT')
     dayCounts[date] = (dayCounts[date] || 0) + 1
   })
 

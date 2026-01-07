@@ -17,6 +17,7 @@ export function ClinicForm({ initialData, clinicId, onSave }: ClinicFormProps) {
     country: 'Guatemala'
   })
   const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   const handleChange = (field: keyof ClinicSettings, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -25,11 +26,12 @@ export function ClinicForm({ initialData, clinicId, onSave }: ClinicFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
+    setMessage(null)
     try {
       await onSave(formData)
-      alert('Configuración guardada exitosamente')
+      setMessage({ type: 'success', text: 'Configuración guardada exitosamente' })
     } catch (error) {
-      alert('Error al guardar la configuración')
+      setMessage({ type: 'error', text: 'Error al guardar la configuración' })
       console.error(error)
     } finally {
       setSaving(false)
@@ -38,6 +40,17 @@ export function ClinicForm({ initialData, clinicId, onSave }: ClinicFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
+      {/* Success/Error Message */}
+      {message && (
+        <div className={`p-4 rounded-lg ${
+          message.type === 'success' 
+            ? 'bg-green-50 text-green-800 border border-green-200' 
+            : 'bg-red-50 text-red-800 border border-red-200'
+        }`}>
+          {message.text}
+        </div>
+      )}
+
       {/* Logo */}
       <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
         <LogoUploader

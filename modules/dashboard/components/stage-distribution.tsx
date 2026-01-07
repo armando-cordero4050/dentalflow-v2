@@ -18,7 +18,7 @@ export function StageDistribution({ data }: StageDistributionProps) {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-      <h3 className="text-lg font-semibold mb-4">Distribución por Etapa KAMBA</h3>
+      <h3 className="text-lg font-semibold mb-4">Distribución por Etapa</h3>
       <div className="space-y-3">
         {data.map(({ stage, count }) => {
           const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0

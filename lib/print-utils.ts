@@ -1,16 +1,9 @@
 // Print utility functions
 
 export function printDocument(elementId: string) {
-  const printContent = document.getElementById(elementId)
-  if (!printContent) return
-
-  const originalContent = document.body.innerHTML
-  const printArea = printContent.innerHTML
-
-  document.body.innerHTML = printArea
+  // Use window.print() with CSS @media print rules instead of DOM manipulation
+  // This preserves event listeners and component state
   window.print()
-  document.body.innerHTML = originalContent
-  window.location.reload() // Reload to restore event listeners
 }
 
 export function formatOrderNumber(orderNumber: string | number, year?: number) {
