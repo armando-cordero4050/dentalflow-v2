@@ -4,15 +4,17 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { LoginForm } from '@/components/auth/login-form'
 import { DevQuickLogin } from '@/components/auth/dev-quick-login'
+import { Footer } from '@/components/layout/footer'
 import { motion } from 'framer-motion'
 
 export default function LoginPage() {
   const [activeTab, setActiveTab] = useState<'clinic' | 'lab'>('clinic')
 
   return (
-    <div className="min-h-screen grid md:grid-cols-2">
-      {/* Left Side - Form */}
-      <div className="flex items-center justify-center p-8 bg-white">
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-1 grid md:grid-cols-2">
+        {/* Left Side - Form */}
+        <div className="flex items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md space-y-8">
           {/* Logo */}
           <div className="flex items-center gap-2">
@@ -116,6 +118,8 @@ export default function LoginPage() {
           </div>
         </motion.div>
       </div>
+      </div>
+      <Footer />
     </div>
   )
 }

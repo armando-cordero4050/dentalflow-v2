@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { MetricsDashboard } from '@/modules/dashboard/components/metrics-dashboard'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -10,29 +11,26 @@ export default async function DashboardPage() {
     redirect('/login')
   }
 
-  // Get user role from database
+  // Get user data
   const { data: userData } = await supabase
     .from('users')
-    .select('role_id, roles(name)')
+    .select('clinic_id, role_id, roles(name)')
     .eq('id', user.id)
     .single()
 
-  // Redirect based on role
   const roleName = (userData?.roles as any)?.name
-  
-  if (roleName === 'super_admin') {
-    redirect('/dashboard/admin')
-  } else if (roleName?.includes('lab_')) {
-    redirect('/dashboard/lab')
-  } else if (roleName?.includes('clinic_') || roleName === 'doctor') {
-    redirect('/dashboard/medical')
-  }
+  const clinicId = userData?.clinic_id
 
-  // Default dashboard
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
-      <p className="text-gray-600">Bienvenido a DentalFlow 2.0</p>
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <p className="text-gray-600 mt-2">
+          Vista general de las operaciones de {roleName?.includes('lab') ? 'laboratorio' : 'clínica'}
+        </p>
+      </div>
+
+      <MetricsDashboard clinicId={clinicId} />
     </div>
   )
 }

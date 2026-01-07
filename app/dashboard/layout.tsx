@@ -1,5 +1,6 @@
 import { Sidebar } from '@/components/layout/sidebar'
 import { Header } from '@/components/layout/header'
+import { Footer } from '@/components/layout/footer'
 
 export default function DashboardLayout({
   children,
@@ -14,6 +15,7 @@ export default function DashboardLayout({
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>
+        <Footer />
       </div>
     </div>
   )

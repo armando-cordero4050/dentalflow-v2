@@ -11,9 +11,11 @@ import {
   Settings,
   ShieldCheck,
   Building2,
-  LogOut
+  LogOut,
+  ChevronDown
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useState } from 'react'
 
 const navigationItems = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
@@ -25,11 +27,17 @@ const navigationItems = [
   { icon: Users, label: 'Usuarios', href: '/dashboard/users', adminOnly: true },
   { icon: ShieldCheck, label: 'Roles', href: '/dashboard/roles', adminOnly: true },
   { icon: ShieldCheck, label: 'Permisos', href: '/dashboard/permissions', adminOnly: true },
-  { icon: Settings, label: 'Configuración', href: '/dashboard/settings' },
+]
+
+const settingsItems = [
+  { label: 'Clínica', href: '/dashboard/settings/clinic' },
+  { label: 'Usuarios', href: '/dashboard/settings/users' },
+  { label: 'Catálogo Lab', href: '/dashboard/settings/catalog' },
 ]
 
 export function Sidebar() {
   const pathname = usePathname()
+  const [settingsOpen, setSettingsOpen] = useState(pathname.startsWith('/dashboard/settings'))
 
   return (
     <aside className="w-64 min-h-screen bg-white border-r border-gray-200">
@@ -67,6 +75,48 @@ export function Sidebar() {
               </Link>
             )
           })}
+
+          {/* Settings with submenu */}
+          <div>
+            <button
+              onClick={() => setSettingsOpen(!settingsOpen)}
+              className={cn(
+                'flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full',
+                pathname.startsWith('/dashboard/settings')
+                  ? 'bg-blue-50 text-blue-600 font-medium'
+                  : 'text-gray-700 hover:bg-gray-50'
+              )}
+            >
+              <Settings className="w-5 h-5" />
+              <span className="flex-1 text-left">Configuración</span>
+              <ChevronDown className={cn(
+                'w-4 h-4 transition-transform',
+                settingsOpen ? 'transform rotate-180' : ''
+              )} />
+            </button>
+            
+            {settingsOpen && (
+              <div className="ml-4 mt-1 space-y-1">
+                {settingsItems.map((item) => {
+                  const isActive = pathname === item.href
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={cn(
+                        'flex items-center gap-3 px-4 py-2 rounded-lg transition-colors text-sm',
+                        isActive
+                          ? 'bg-blue-50 text-blue-600 font-medium'
+                          : 'text-gray-600 hover:bg-gray-50'
+                      )}
+                    >
+                      <span>{item.label}</span>
+                    </Link>
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </nav>
 
         {/* Logout */}
