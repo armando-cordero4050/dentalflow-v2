@@ -111,15 +111,30 @@ INSERT INTO clinics (name, code, address, phone, email) VALUES
 -- DENTAL FINDINGS CATALOG
 -- =============================================
 
-INSERT INTO dental_findings_catalog (code, name, description, color) VALUES
-('SANO', 'Sano', 'Diente sano sin hallazgos', '#10B981'),
-('CARIES', 'Caries', 'Caries dental', '#EF4444'),
-('OBTURADO', 'Obturado', 'Obturación/Empaste', '#3B82F6'),
-('CORONA', 'Corona', 'Corona dental', '#F59E0B'),
-('AUSENTE', 'Ausente', 'Diente ausente', '#6B7280'),
-('FRACTURA', 'Fractura', 'Fractura dental', '#DC2626'),
-('ENDODONCIA', 'Endodoncia', 'Tratamiento de conducto', '#8B5CF6'),
-('IMPLANTE', 'Implante', 'Implante dental', '#06B6D4');
+INSERT INTO dental_findings_catalog (code, name, description, color, requires_lab) VALUES
+-- Clinical Procedures (NO require lab)
+('SANO', 'Sano', 'Diente sano sin hallazgos', '#ffffff', false),
+('CARIES', 'Caries', 'Caries dental', '#ef4444', false),
+('AMALGAMA', 'Amalgama', 'Obturación con amalgama', '#6b7280', false),
+('RESINA', 'Resina', 'Obturación con resina/composite', '#93c5fd', false),
+('ENDODONCIA', 'Endodoncia', 'Tratamiento de conducto', '#f97316', false),
+('EXTRACCION', 'Extracción', 'Extracción dental', '#dc2626', false),
+('SELLANTE', 'Sellante', 'Sellante de fosas y fisuras', '#86efac', false),
+('FRACTURA', 'Fractura', 'Fractura dental', '#991b1b', false),
+('AUSENTE', 'Ausente', 'Diente ausente', '#9ca3af', false),
+
+-- Laboratory & Prosthesis (REQUIRE lab order)
+('CORONA', 'Corona', 'Corona dental', '#eab308', true),
+('CARILLA', 'Carilla', 'Carilla dental', '#facc15', true),
+('PUENTE', 'Puente', 'Puente dental', '#ca8a04', true),
+('INCRUSTACION', 'Incrustación', 'Incrustación dental', '#d97706', true),
+('PERNO', 'Perno Colado', 'Perno y muñón colado', '#78350f', true),
+('PROTESIS_TOTAL', 'Prótesis Total', 'Prótesis total removible', '#8b5cf6', true),
+('PROTESIS_REMOVIBLE', 'P. Removible', 'Prótesis parcial removible', '#a78bfa', true),
+('GUARDA', 'Guarda', 'Guarda oclusal', '#10b981', true),
+('ALINEADOR', 'Alineador', 'Alineador ortodóntico', '#06b6d4', true),
+('RETENEDOR', 'Retenedor', 'Retenedor ortodóntico', '#0ea5e9', true),
+('IMPLANTE', 'Implante', 'Implante dental', '#3b82f6', true);
 
 -- =============================================
 -- LAB MATERIAL TYPES
