@@ -1,0 +1,29 @@
+export interface ClinicSettings {
+  id?: string
+  clinic_id?: string
+  name: string
+  legal_name?: string
+  logo_url?: string
+  slogan?: string
+  address?: string
+  city?: string
+  state?: string
+  country?: string
+  postal_code?: string
+  phone?: string
+  phone_secondary?: string
+  email?: string
+  website?: string
+  tax_id?: string
+  tax_regime?: string
+  commercial_registry?: string
+  prescription_header?: string
+  prescription_footer?: string
+  order_terms?: string
+  invoice_notes?: string
+  facebook?: string
+  instagram?: string
+  whatsapp?: string
+  created_at?: string
+  updated_at?: string
+}
